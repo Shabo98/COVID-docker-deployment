@@ -1,19 +1,4 @@
 
-"""
-
-The 7 classes of skin cancer lesions included in this dataset are:
-Melanocytic nevi (nv)
-Melanoma (mel)
-Benign keratosis-like lesions (bkl)
-Basal cell carcinoma (bcc) 
-Actinic keratoses (akiec)
-Vascular lesions (vas)
-Dermatofibroma (df)
-
-"""
-
-
-
 import numpy as np
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
@@ -22,18 +7,16 @@ from tensorflow.keras.models import load_model
 
 def getPrediction(filename):
     
-    classes = ['Actinic keratoses', 'Basal cell carcinoma', 
-               'Benign keratosis-like lesions', 'Dermatofibroma', 'Melanoma', 
-               'Melanocytic nevi', 'Vascular lesions']
+    classes = ['Negative','Positive']
     le = LabelEncoder()
     le.fit(classes)
     le.inverse_transform([2])
     
     
     #Load model
-    my_model=load_model("model/HAM10000_100epochs.h5")
+    my_model=load_model("models/mobile_paper_model")
     
-    SIZE = 32 #Resize to same size as training images
+    SIZE = 224 #Resize to same size as training images
     img_path = 'static/images/'+filename
     img = np.asarray(Image.open(img_path).resize((SIZE,SIZE)))
     
@@ -49,6 +32,5 @@ def getPrediction(filename):
     return pred_class
 
 
-#a =getPrediction('vasc.jpg')
 
 
